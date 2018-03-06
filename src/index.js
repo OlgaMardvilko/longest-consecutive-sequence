@@ -1,26 +1,26 @@
 module.exports = function longestConsecutiveLength(array) {
- let num = array;
- let set = num.slice();
- let max = 1;
- let len = num.length;
- let prevCurrent, current, count;
+  let max = 1;
+  let len = array.length;
+  let current, count;
+ 
+  if (len == 0) { return 0; }
 
-  if (len == 0) {
-    return 0;
+  let map = new Map();
+  
+  for (let i = 0; i < len; i++) {
+    map.set(array[i], null);
   }
 
-  for (var i=len; i--;) {
-	  prevCurrent = num[i] - 1;
-	  if (set.indexOf(prevCurrent)) {
-	    current = num[i];
-		  count = 1;
-		
-		while(set.indexOf(current+1) != -1) {
-		  current++;
-		  count++;
-		}
-		max = Math.max(count, max);
-	  }
-	}
-  return max;
+  for (let [key, value] of map) {
+  
+    if (!map.has(key - 1)) {
+      count = 1;
+      current = key;
+      while (map.has(++current)) {
+        count++;
+      }
+      max = Math.max(count, max);
+    }
+  }
+ return  max;
 }
